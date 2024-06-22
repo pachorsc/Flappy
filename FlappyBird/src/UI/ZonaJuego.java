@@ -1,12 +1,12 @@
 
 package UI;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import objetos.*;
 
 
 public class ZonaJuego extends javax.swing.JFrame {
@@ -18,23 +18,58 @@ public class ZonaJuego extends javax.swing.JFrame {
     final int tiempo = 10;
     private Timer timer;
     
+    JPanel Bird = new JPanel();
+    JPanel tubo1 = new JPanel();
+    JPanel tubo2 = new JPanel();
+    
     
     public ZonaJuego() {
         initComponents();
-        startGravity();
-   
+        pajaro();
+        obstaculos();
+        fall();   
     }
-    private void startGravity() {
+    
+    private void obstaculos(){
+       Tubo obsta = new Tubo(); 
+       tubo1 = new JPanel();
+       
+       
+       
+       //tubo superior
+       tubo1.setBounds(550, 0, obsta.getWith(), obsta.getHeight());
+       tubo1.setBackground(obsta.getColor());
+       Fondo.add(tubo1);
+       tubo1.setVisible(true);
+       
+       tubo2 = new JPanel();
+       //tubo inferior
+       tubo2.setBounds(550, 200, obsta.getWith(), 600-obsta.getHeight()-80);
+       tubo2.setBackground(obsta.getColor());
+       Fondo.add(tubo2);
+       tubo2.setVisible(true);
+       
+    }
+    private void pajaro(){
+       Pajaro bird = new Pajaro();
+       Bird = new JPanel();
+       Bird.setBounds(100, 100, bird.getWith(), bird.getHeight());
+       Bird.setBackground(bird.getColor());
+       Fondo.add(Bird);
+       Bird.setVisible(true);        
+    }
+    private void fall() {
         timer = new Timer(tiempo, new ActionListener() {
-           
             public void actionPerformed(ActionEvent evt) {
+                tubo1.setLocation(tubo1.getLocation().x-1, tubo1.getLocation().y);
+                tubo2.setLocation(tubo2.getLocation().x-1, tubo2.getLocation().y);
                 if (cae) {
                     //si cae mucho que se quede en lo bajo
-                    if (jPanel2.getLocation().y < 511) {
-                        jPanel2.setLocation(jPanel2.getLocation().x, jPanel2.getLocation().y + graveda*tCaida);
+                    if (Bird.getLocation().y < 511) {
+                        Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y + graveda*tCaida);  
                         tCaida++; 
                     } else {
-                        jPanel2.setLocation(jPanel2.getLocation().x, 511);
+                        Bird.setLocation(Bird.getLocation().x, 511);
                     }
                 }
             }
@@ -51,8 +86,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        Fondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 204));
@@ -70,50 +104,29 @@ public class ZonaJuego extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+        Fondo.setBackground(new java.awt.Color(0, 204, 204));
+        Fondo.setPreferredSize(new java.awt.Dimension(600, 600));
 
-        jPanel2.setLocation(100,100);
-        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
-        jPanel2.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+        javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
+        Fondo.setLayout(FondoLayout);
+        FondoLayout.setHorizontalGroup(
+            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(479, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(427, Short.MAX_VALUE))
+        FondoLayout.setVerticalGroup(
+            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -125,11 +138,11 @@ public class ZonaJuego extends javax.swing.JFrame {
         
         switch(key) {
             case KeyEvent.VK_SPACE :
-                if (jPanel2.getLocation().y <0) {
-                    jPanel2.setLocation(jPanel2.getLocation().x, 0);
+                if (Bird.getLocation().y <0) {
+                    Bird.setLocation(Bird.getLocation().x, 0);
                 }
                 for (int i = 0; i < 5; i++) {
-                    jPanel2.setLocation(jPanel2.getLocation().x, jPanel2.getLocation().y - 2);
+                    Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y - 2);
                 }
                 
                 tCaida= 1;
@@ -184,7 +197,6 @@ public class ZonaJuego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel Fondo;
     // End of variables declaration//GEN-END:variables
 }

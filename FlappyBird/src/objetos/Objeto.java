@@ -12,4 +12,21 @@ public class Objeto {
         this.with = anch;
         this.color = col;
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWith() {
+        return with;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
 }
