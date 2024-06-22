@@ -7,7 +7,9 @@ public class Objeto {
     int with;
     Color color;
     
-    public Objeto(){
-        height = 0;
+    public Objeto(int alt, int anch, Color col){
+        this.height = alt;
+        this.with = anch;
+        this.color = col;
     }
 }

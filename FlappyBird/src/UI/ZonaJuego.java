@@ -1,22 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package UI;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
 public class ZonaJuego extends javax.swing.JFrame {
+    
     static boolean game = true;
     static boolean cae = true;
     static int tCaida= 1;
     final int graveda = 1;
     final int tiempo = 10;
     private Timer timer;
+    
     
     public ZonaJuego() {
         initComponents();
@@ -28,8 +29,13 @@ public class ZonaJuego extends javax.swing.JFrame {
            
             public void actionPerformed(ActionEvent evt) {
                 if (cae) {
-                    jPanel2.setLocation(jPanel2.getLocation().x, jPanel2.getLocation().y + graveda*tCaida);
-                    tCaida++;
+                    //si cae mucho que se quede en lo bajo
+                    if (jPanel2.getLocation().y < 511) {
+                        jPanel2.setLocation(jPanel2.getLocation().x, jPanel2.getLocation().y + graveda*tCaida);
+                        tCaida++; 
+                    } else {
+                        jPanel2.setLocation(jPanel2.getLocation().x, 511);
+                    }
                 }
             }
         });
@@ -45,9 +51,12 @@ public class ZonaJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 204, 204));
+        setPreferredSize(new java.awt.Dimension(600, 600));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -61,41 +70,50 @@ public class ZonaJuego extends javax.swing.JFrame {
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(255, 0, 51));
-        jPanel2.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jPanel2CaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+
+        jPanel2.setLocation(100,100);
+        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
+        jPanel2.setPreferredSize(new java.awt.Dimension(50, 50));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 58, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(479, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(427, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(125, 125, 125)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(419, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(247, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(136, 136, 136))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -107,6 +125,9 @@ public class ZonaJuego extends javax.swing.JFrame {
         
         switch(key) {
             case KeyEvent.VK_SPACE :
+                if (jPanel2.getLocation().y <0) {
+                    jPanel2.setLocation(jPanel2.getLocation().x, 0);
+                }
                 for (int i = 0; i < 5; i++) {
                     jPanel2.setLocation(jPanel2.getLocation().x, jPanel2.getLocation().y - 2);
                 }
@@ -117,10 +138,6 @@ public class ZonaJuego extends javax.swing.JFrame {
                 
         }        
     }//GEN-LAST:event_formKeyPressed
-
-    private void jPanel2CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jPanel2CaretPositionChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel2CaretPositionChanged
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         //caundo no se presiona una tecla entonces se caee
@@ -167,6 +184,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
