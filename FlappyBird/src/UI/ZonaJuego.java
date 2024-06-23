@@ -1,6 +1,8 @@
 
 package UI;
 
+import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,26 +17,27 @@ public class ZonaJuego extends javax.swing.JFrame {
     static boolean cae = true;
     static int tCaida= 1;
     final int graveda = 1;
-    final int tiempo = 10;
+    final int tiempo = 20;
     private Timer timer;
     
     JPanel Bird = new JPanel();
     JPanel tubo1 = new JPanel();
     JPanel tubo2 = new JPanel();
+    JPanel tubo3 = new JPanel();
+    JPanel tubo4 = new JPanel();
     
     
     public ZonaJuego() {
         initComponents();
         pajaro();
         obstaculos();
-        fall();   
+        fall(); 
+        movtub();
     }
     
     private void obstaculos(){
        Tubo obsta = new Tubo(); 
        tubo1 = new JPanel();
-       
-       
        
        //tubo superior
        tubo1.setBounds(550, 0, obsta.getWith(), obsta.getHeight());
@@ -42,13 +45,59 @@ public class ZonaJuego extends javax.swing.JFrame {
        Fondo.add(tubo1);
        tubo1.setVisible(true);
        
-       tubo2 = new JPanel();
        //tubo inferior
-       tubo2.setBounds(550, 200, obsta.getWith(), 600-obsta.getHeight()-80);
+       tubo2 = new JPanel();
+       
+       tubo2.setBounds(550, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
        tubo2.setBackground(obsta.getColor());
        Fondo.add(tubo2);
        tubo2.setVisible(true);
        
+       Tubo obsta2 = new Tubo(); 
+       tubo3 = new JPanel();
+       
+       //tubo superior
+       tubo3.setBounds(550, 0, obsta2.getWith(), obsta2.getHeight());
+       tubo3.setBackground(obsta2.getColor());
+       Fondo.add(tubo3);
+       
+       
+       //tubo inferior
+       tubo4 = new JPanel();
+       
+       tubo4.setBounds(550, 600-(500-tubo3.getHeight()), obsta2.getWith(), 500-tubo3.getHeight());
+       tubo4.setBackground(obsta2.getColor());
+       Fondo.add(tubo4);
+       
+       tubo3.setVisible(false);
+       tubo4.setVisible(false);
+       
+    }
+        
+    private void sifObst(){
+        //cuando salgan los tibos se moveran y se deben redimensionar
+        
+        if (tubo2.getLocation().x <= -50) {
+            Tubo obsta = new Tubo();
+            tubo1.setSize(50, obsta.getHeight());
+            tubo2.setBounds(600, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
+            tubo1.setLocation(600, tubo1.getLocation().y);
+            tubo2.setLocation(600, tubo2.getLocation().y);
+            
+        } 
+        //se crean otros obtaculos en medio juego
+        if(tubo1.getLocation().x == 250 || tubo1.getLocation().x == 251){
+            tubo3.setVisible(true);
+            tubo4.setVisible(true);
+        }
+        //se mueven al inicio y redimensionan
+        if (tubo3.getLocation().x <= -50) {
+            Tubo obsta = new Tubo();
+            tubo3.setSize(50, obsta.getHeight());
+            tubo4.setBounds(600, 600-(500-tubo3.getHeight()), obsta.getWith(), 500-tubo3.getHeight());
+            tubo3.setLocation(600, tubo3.getLocation().y);
+            tubo4.setLocation(600, tubo4.getLocation().y);
+        }
     }
     private void pajaro(){
        Pajaro bird = new Pajaro();
@@ -58,11 +107,25 @@ public class ZonaJuego extends javax.swing.JFrame {
        Fondo.add(Bird);
        Bird.setVisible(true);        
     }
+    
+    private boolean hitbox(JPanel objeto){
+        boolean hit = false;
+        if (Bird.getLocation().x > objeto.getLocation().x+objeto.getWidth()||
+            Bird.getLocation().x + Bird.getWidth() < objeto.getLocation().x ||
+            Bird.getLocation().y > objeto.getLocation().y + objeto.getHeight() ||
+            Bird.getLocation().y + Bird.getHeight() < objeto.getLocation().y) {
+            
+        } else {
+            System.out.println("se goleó");
+        }
+        
+        return hit;
+    }
+    
     private void fall() {
         timer = new Timer(tiempo, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                tubo1.setLocation(tubo1.getLocation().x-1, tubo1.getLocation().y);
-                tubo2.setLocation(tubo2.getLocation().x-1, tubo2.getLocation().y);
+                hitbox(tubo1);
                 if (cae) {
                     //si cae mucho que se quede en lo bajo
                     if (Bird.getLocation().y < 511) {
@@ -72,6 +135,20 @@ public class ZonaJuego extends javax.swing.JFrame {
                         Bird.setLocation(Bird.getLocation().x, 511);
                     }
                 }
+            }
+        });
+        timer.start();
+    }
+    private void movtub() {
+        timer = new Timer(tiempo, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                tubo1.setLocation(tubo1.getLocation().x-3, tubo1.getLocation().y);
+                tubo2.setLocation(tubo2.getLocation().x-3, tubo2.getLocation().y);
+                if (tubo3.isVisible()) {
+                    tubo3.setLocation(tubo3.getLocation().x-3, tubo3.getLocation().y);
+                    tubo4.setLocation(tubo4.getLocation().x-3, tubo4.getLocation().y);
+                }
+                sifObst();
             }
         });
         timer.start();
@@ -141,7 +218,7 @@ public class ZonaJuego extends javax.swing.JFrame {
                 if (Bird.getLocation().y <0) {
                     Bird.setLocation(Bird.getLocation().x, 0);
                 }
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 10; i++) {
                     Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y - 2);
                 }
                 
