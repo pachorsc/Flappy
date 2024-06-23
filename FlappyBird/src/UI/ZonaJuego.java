@@ -13,7 +13,6 @@ import objetos.*;
 
 public class ZonaJuego extends javax.swing.JFrame {
     
-    static boolean game = true;
     static boolean cae = true;
     static int tCaida= 1;
     final int graveda = 1;
@@ -116,7 +115,8 @@ public class ZonaJuego extends javax.swing.JFrame {
             Bird.getLocation().y + Bird.getHeight() < objeto.getLocation().y) {
             
         } else {
-            System.out.println("se goleó");
+            hit = true;
+            this.setVisible(false);
         }
         
         return hit;
@@ -124,8 +124,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     
     private void fall() {
         timer = new Timer(tiempo, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                hitbox(tubo1);
+            public void actionPerformed(ActionEvent evt) {               
                 if (cae) {
                     //si cae mucho que se quede en lo bajo
                     if (Bird.getLocation().y < 511) {
@@ -149,6 +148,14 @@ public class ZonaJuego extends javax.swing.JFrame {
                     tubo4.setLocation(tubo4.getLocation().x-3, tubo4.getLocation().y);
                 }
                 sifObst();
+                //si se chocan termina el juego
+                if (hitbox(tubo1) || hitbox(tubo2) || hitbox(tubo3) || hitbox(tubo4)) {
+                    MenuFin per = new MenuFin();
+                    
+                    per.setLocationRelativeTo(null);
+                    per.setVisible(true);
+                    timer.stop();
+                }
             }
         });
         timer.start();
