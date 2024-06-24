@@ -7,6 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import objetos.*;
 
@@ -30,6 +32,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     
     public ZonaJuego() {
         initComponents();
+        Fondo.setOpaque(false);
         puntaje = 0;
         pajaro();
         obstaculos();
@@ -115,6 +118,12 @@ public class ZonaJuego extends javax.swing.JFrame {
        tubo3.setVisible(false);
        tubo4.setVisible(false);
        
+       //les doy imagen
+       ImageIcon img = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\Cloud_Tileset-removebg-preview.png");
+       JLabel background = new JLabel("",img,JLabel.CENTER);
+       tubo1.setLayout(null);
+       background.setBounds(0,0, obsta.getWith(), obsta.getHeight());
+       tubo1.add(background);
     }
         
     private void sifObst(){
@@ -142,11 +151,17 @@ public class ZonaJuego extends javax.swing.JFrame {
                 }     
     }
     private void pajaro(){
+       
+       ImageIcon img = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\flydog.png");
+       JLabel background = new JLabel("",img,JLabel.CENTER);
        Pajaro bird = new Pajaro();
        Bird = new JPanel();
+       Bird.setLayout(null);
        Bird.setBounds(100, 100, bird.getWith(), bird.getHeight());
-       Bird.setBackground(bird.getColor());
+       background.setBounds(0,0, bird.getWith(), bird.getHeight());
+       Bird.add(background);
        Fondo.add(Bird);
+       Bird.setOpaque(false);
        Bird.setVisible(true);        
     }
     
@@ -200,6 +215,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bosquw = new javax.swing.JLabel();
         Fondo = new javax.swing.JPanel();
         PuntJue = new javax.swing.JLabel();
 
@@ -218,38 +234,36 @@ public class ZonaJuego extends javax.swing.JFrame {
             }
         });
 
-        Fondo.setBackground(new java.awt.Color(0, 204, 204));
+        bosquw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/origbig.png"))); // NOI18N
+
+        Fondo.setForeground(new java.awt.Color(60, 63, 65));
         Fondo.setPreferredSize(new java.awt.Dimension(600, 600));
+        Fondo.setLayout(null);
 
         PuntJue.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         PuntJue.setText("jLabel1");
-
-        javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
-        Fondo.setLayout(FondoLayout);
-        FondoLayout.setHorizontalGroup(
-            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FondoLayout.createSequentialGroup()
-                .addGap(263, 263, 263)
-                .addComponent(PuntJue, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(293, Short.MAX_VALUE))
-        );
-        FondoLayout.setVerticalGroup(
-            FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FondoLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(PuntJue)
-                .addContainerGap(530, Short.MAX_VALUE))
-        );
+        Fondo.add(PuntJue);
+        PuntJue.setBounds(263, 20, 44, 50);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(bosquw, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(bosquw, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -330,5 +344,6 @@ public class ZonaJuego extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fondo;
     private javax.swing.JLabel PuntJue;
+    private javax.swing.JLabel bosquw;
     // End of variables declaration//GEN-END:variables
 }

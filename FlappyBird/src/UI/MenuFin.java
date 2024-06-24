@@ -11,9 +11,7 @@ public class MenuFin extends javax.swing.JFrame {
         initComponents();
         isTop();
         PuntajeFin.setText(Integer.toString(ZonaJuego.getPuntaje()));
-        HSBD(); 
-        
-        
+        HSBD();  
     }
 
     private void HSBD() throws ClassNotFoundException, SQLException{
