@@ -1,8 +1,6 @@
 
 package UI;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+  
 import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,7 +14,7 @@ public class ZonaJuego extends javax.swing.JFrame {
     static boolean cae = true;
     static int tCaida= 1;
     final int graveda = 1;
-    final int tiempo = 20;
+    final int tiempo = 5;
 
     Timer time;
     
@@ -41,22 +39,22 @@ public class ZonaJuego extends javax.swing.JFrame {
         TimerTask mov = new TimerTask() {
             @Override
             public void run() {
+                puntaje();
                 fall();
                 movtub();
                 sifObst();
                 golpea();
-                puntaje();
+                
             }
         };
         time.schedule(mov, 0, tiempo);
     }
     
     private void puntaje(){
-
             if (tubo1.getLocation().x == 100 || tubo3.getLocation().x == 100) {
                 puntaje += 1; 
                 PuntJue.setText(Integer.toString(puntaje));  
-            }
+            } 
     }
     private void golpea(){
                 //si se chocan termina el juego
@@ -163,11 +161,11 @@ public class ZonaJuego extends javax.swing.JFrame {
     private void fall() {                
                 if (cae) {
                     //si cae mucho que se quede en lo bajo
-                    if (Bird.getLocation().y < 511) {
-                        Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y +1+ graveda*tCaida);  
+                    if (Bird.getLocation().y < 550) {
+                        Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y +1+ (graveda*tCaida)/20);  
                         tCaida++; 
                     } else {
-                        Bird.setLocation(Bird.getLocation().x, 511);
+                        Bird.setLocation(Bird.getLocation().x, 550);
                     }
                 }
                 
@@ -175,11 +173,11 @@ public class ZonaJuego extends javax.swing.JFrame {
   
     private void movtub() {
 
-                tubo1.setLocation(tubo1.getLocation().x-4, tubo1.getLocation().y);
-                tubo2.setLocation(tubo2.getLocation().x-4, tubo2.getLocation().y);
+                tubo1.setLocation(tubo1.getLocation().x-1, tubo1.getLocation().y);
+                tubo2.setLocation(tubo2.getLocation().x-1, tubo2.getLocation().y);
                 if (tubo3.isVisible()) {
-                    tubo3.setLocation(tubo3.getLocation().x-4, tubo3.getLocation().y);
-                    tubo4.setLocation(tubo4.getLocation().x-4, tubo4.getLocation().y);
+                    tubo3.setLocation(tubo3.getLocation().x-1, tubo3.getLocation().y);
+                    tubo4.setLocation(tubo4.getLocation().x-1, tubo4.getLocation().y);
                 }                
             }
     
