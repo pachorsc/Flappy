@@ -1,23 +1,24 @@
 
 package UI;
 
-import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import objetos.*;
 
 
 public class ZonaJuego extends javax.swing.JFrame {
     
+    static public int puntaje;
     static boolean cae = true;
     static int tCaida= 1;
     final int graveda = 1;
     final int tiempo = 20;
-    private Timer timer;
+
+    Timer time;
     
     JPanel Bird = new JPanel();
     JPanel tubo1 = new JPanel();
@@ -28,11 +29,47 @@ public class ZonaJuego extends javax.swing.JFrame {
     
     public ZonaJuego() {
         initComponents();
+        puntaje = 0;
         pajaro();
         obstaculos();
-        fall(); 
-        movtub();
+        tiempoJuego();
+        PuntJue.setText(Integer.toString(this.getPuntaje()));
+        
     }
+    private void tiempoJuego(){
+        time = new Timer();
+        TimerTask mov = new TimerTask() {
+            @Override
+            public void run() {
+                fall();
+                movtub();
+                sifObst();
+                golpea();
+                puntaje();
+            }
+        };
+        time.schedule(mov, 0, tiempo);
+    }
+    
+    private void puntaje(){
+
+            if (tubo1.getLocation().x == 100 || tubo3.getLocation().x == 100) {
+                puntaje += 1; 
+                PuntJue.setText(Integer.toString(puntaje));  
+            }
+    }
+    private void golpea(){
+                //si se chocan termina el juego
+                if (hitbox(tubo1) || hitbox(tubo2) || hitbox(tubo3) || hitbox(tubo4)) {                   
+                    MenuFin per = new MenuFin();
+                    per.setLocationRelativeTo(null);
+                    per.setVisible(true);
+                    this.setVisible(false);
+                    time.cancel();
+                } 
+         
+    }
+    
     
     private void obstaculos(){
        Tubo obsta = new Tubo(); 
@@ -75,28 +112,27 @@ public class ZonaJuego extends javax.swing.JFrame {
         
     private void sifObst(){
         //cuando salgan los tibos se moveran y se deben redimensionar
-        
-        if (tubo2.getLocation().x <= -50) {
-            Tubo obsta = new Tubo();
-            tubo1.setSize(50, obsta.getHeight());
-            tubo2.setBounds(600, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
-            tubo1.setLocation(600, tubo1.getLocation().y);
-            tubo2.setLocation(600, tubo2.getLocation().y);
-            
-        } 
-        //se crean otros obtaculos en medio juego
-        if(tubo1.getLocation().x == 250 || tubo1.getLocation().x == 251){
-            tubo3.setVisible(true);
-            tubo4.setVisible(true);
-        }
-        //se mueven al inicio y redimensionan
-        if (tubo3.getLocation().x <= -50) {
-            Tubo obsta = new Tubo();
-            tubo3.setSize(50, obsta.getHeight());
-            tubo4.setBounds(600, 600-(500-tubo3.getHeight()), obsta.getWith(), 500-tubo3.getHeight());
-            tubo3.setLocation(600, tubo3.getLocation().y);
-            tubo4.setLocation(600, tubo4.getLocation().y);
-        }
+                if (tubo2.getLocation().x <= -50) {
+                    Tubo obsta = new Tubo();
+                    tubo1.setSize(50, obsta.getHeight());
+                    tubo2.setBounds(600, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
+                    tubo1.setLocation(600, tubo1.getLocation().y);
+                    tubo2.setLocation(600, tubo2.getLocation().y);
+
+                } 
+                //se crean otros obtaculos en medio juego
+                if(tubo1.getLocation().x == 250 || tubo1.getLocation().x == 251){
+                    tubo3.setVisible(true);
+                    tubo4.setVisible(true);
+                }
+                //se mueven al inicio y redimensionan
+                if (tubo3.getLocation().x <= -50) {
+                    Tubo obsta = new Tubo();
+                    tubo3.setSize(50, obsta.getHeight());
+                    tubo4.setBounds(600, 600-(500-tubo3.getHeight()), obsta.getWith(), 500-tubo3.getHeight());
+                    tubo3.setLocation(600, tubo3.getLocation().y);
+                    tubo4.setLocation(600, tubo4.getLocation().y);
+                }     
     }
     private void pajaro(){
        Pajaro bird = new Pajaro();
@@ -117,49 +153,36 @@ public class ZonaJuego extends javax.swing.JFrame {
         } else {
             hit = true;
             this.setVisible(false);
+            this.dispose();
+            System.gc();
         }
         
         return hit;
     }
     
-    private void fall() {
-        timer = new Timer(tiempo, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {               
+    private void fall() {                
                 if (cae) {
                     //si cae mucho que se quede en lo bajo
                     if (Bird.getLocation().y < 511) {
-                        Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y + graveda*tCaida);  
+                        Bird.setLocation(Bird.getLocation().x, Bird.getLocation().y +1+ graveda*tCaida);  
                         tCaida++; 
                     } else {
                         Bird.setLocation(Bird.getLocation().x, 511);
                     }
                 }
+                
             }
-        });
-        timer.start();
-    }
+  
     private void movtub() {
-        timer = new Timer(tiempo, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                tubo1.setLocation(tubo1.getLocation().x-3, tubo1.getLocation().y);
-                tubo2.setLocation(tubo2.getLocation().x-3, tubo2.getLocation().y);
+
+                tubo1.setLocation(tubo1.getLocation().x-4, tubo1.getLocation().y);
+                tubo2.setLocation(tubo2.getLocation().x-4, tubo2.getLocation().y);
                 if (tubo3.isVisible()) {
-                    tubo3.setLocation(tubo3.getLocation().x-3, tubo3.getLocation().y);
-                    tubo4.setLocation(tubo4.getLocation().x-3, tubo4.getLocation().y);
-                }
-                sifObst();
-                //si se chocan termina el juego
-                if (hitbox(tubo1) || hitbox(tubo2) || hitbox(tubo3) || hitbox(tubo4)) {
-                    MenuFin per = new MenuFin();
-                    
-                    per.setLocationRelativeTo(null);
-                    per.setVisible(true);
-                    timer.stop();
-                }
+                    tubo3.setLocation(tubo3.getLocation().x-4, tubo3.getLocation().y);
+                    tubo4.setLocation(tubo4.getLocation().x-4, tubo4.getLocation().y);
+                }                
             }
-        });
-        timer.start();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,10 +194,10 @@ public class ZonaJuego extends javax.swing.JFrame {
     private void initComponents() {
 
         Fondo = new javax.swing.JPanel();
+        PuntJue = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 204));
-        setPreferredSize(new java.awt.Dimension(600, 600));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -191,15 +214,24 @@ public class ZonaJuego extends javax.swing.JFrame {
         Fondo.setBackground(new java.awt.Color(0, 204, 204));
         Fondo.setPreferredSize(new java.awt.Dimension(600, 600));
 
+        PuntJue.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        PuntJue.setText("jLabel1");
+
         javax.swing.GroupLayout FondoLayout = new javax.swing.GroupLayout(Fondo);
         Fondo.setLayout(FondoLayout);
         FondoLayout.setHorizontalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(FondoLayout.createSequentialGroup()
+                .addGap(263, 263, 263)
+                .addComponent(PuntJue, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(293, Short.MAX_VALUE))
         );
         FondoLayout.setVerticalGroup(
             FondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(FondoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(PuntJue)
+                .addContainerGap(530, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -280,7 +312,16 @@ public class ZonaJuego extends javax.swing.JFrame {
         });
     }
 
+    public static int getPuntaje() {
+        return puntaje;
+    }
+
+    public static void setPuntaje(int puntaje) {
+        ZonaJuego.puntaje = puntaje;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fondo;
+    private javax.swing.JLabel PuntJue;
     // End of variables declaration//GEN-END:variables
 }

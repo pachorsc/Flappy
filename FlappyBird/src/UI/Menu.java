@@ -105,6 +105,7 @@ public class Menu extends javax.swing.JFrame {
         partida.setLocationRelativeTo(null);
         partida.setVisible(true);
         this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
