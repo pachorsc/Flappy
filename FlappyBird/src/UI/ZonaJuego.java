@@ -2,14 +2,17 @@
 package UI;
   
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import objetos.*;
 
 
 public class ZonaJuego extends javax.swing.JFrame {
-    
+    static public String jug;
     static public int puntaje;
     static boolean cae = true;
     static int tCaida= 1;
@@ -43,7 +46,13 @@ public class ZonaJuego extends javax.swing.JFrame {
                 fall();
                 movtub();
                 sifObst();
-                golpea();
+                try {
+                    golpea();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ZonaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ZonaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
             }
         };
@@ -56,7 +65,7 @@ public class ZonaJuego extends javax.swing.JFrame {
                 PuntJue.setText(Integer.toString(puntaje));  
             } 
     }
-    private void golpea(){
+    private void golpea() throws ClassNotFoundException, SQLException{
                 //si se chocan termina el juego
                 if (hitbox(tubo1) || hitbox(tubo2) || hitbox(tubo3) || hitbox(tubo4)) {                   
                     MenuFin per = new MenuFin();
