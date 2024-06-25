@@ -61,4 +61,21 @@ public class BaseD {
             }
         }
     }
+    
+    static public boolean yaExis(String nom) throws ClassNotFoundException, SQLException {
+        Conectar();
+        Statement st = con.createStatement();
+        String consulta  = "Select jugador from highScore";
+        ResultSet rs = st.executeQuery(consulta);
+        boolean exis = false;
+        
+        while(rs.next()){
+            if (nom.equals(rs.getString(1))) {
+                exis = true;
+                break;
+            }
+        }
+        
+        return exis;
+    }
 }

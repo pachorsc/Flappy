@@ -1,5 +1,9 @@
 package UI;
+import static BD.BaseD.yaExis;
 import static UI.ZonaJuego.jug;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -111,17 +115,27 @@ public class Menu extends javax.swing.JFrame {
        if(lugarNom.getText().length()>6){
             Object mensaje = "Nombre muy largo";
             JOptionPane.showMessageDialog(null, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
-        }else if (!lugarNom.getText().isBlank()) {
-            jug = lugarNom.getText();
-            ZonaJuego partida = new ZonaJuego();
-            partida.setLocationRelativeTo(null);
-            partida.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
-        }  else {
-            Object mensaje = "Mensaje está vacio";
-            JOptionPane.showMessageDialog(null, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
-        }
+        } else try {
+            if(yaExis(lugarNom.getText())){
+                Object mensaje = "Nombre ya usado";
+                JOptionPane.showMessageDialog(null, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
+            }  else if (!lugarNom.getText().isBlank()) {
+                jug = lugarNom.getText();
+                ZonaJuego partida = new ZonaJuego();
+                partida.setLocationRelativeTo(null);
+                partida.setVisible(true);
+                this.setVisible(false);
+                this.dispose();
+            } else {
+                Object mensaje = "Mensaje está vacio";
+                JOptionPane.showMessageDialog(null, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
+            }
+       } catch (ClassNotFoundException ex) {
+           Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (SQLException ex) {
+           Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lugarNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lugarNomActionPerformed

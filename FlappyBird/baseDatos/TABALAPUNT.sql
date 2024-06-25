@@ -6,6 +6,8 @@ create table highScore (
 
 insert into highscore values('Pacho', 10);
 insert into highscore values('Master', 20);
+insert into highscore values ('Monica', 2);
 insert into highscore values ('noob', 1);
+insert into highscore values ('Peep', 5);
 
 commit;

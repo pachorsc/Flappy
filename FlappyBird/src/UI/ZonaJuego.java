@@ -17,9 +17,9 @@ public class ZonaJuego extends javax.swing.JFrame {
     static public String jug;
     static public int puntaje;
     static boolean cae = true;
-    static int tCaida= 1;
+    static int tCaida= 2;
     final int graveda = 1;
-    final int tiempo = 5;
+     int tiempo = 10;
 
     Timer time;
     
@@ -28,6 +28,11 @@ public class ZonaJuego extends javax.swing.JFrame {
     JPanel tubo2 = new JPanel();
     JPanel tubo3 = new JPanel();
     JPanel tubo4 = new JPanel();
+    
+    JLabel background;
+    JLabel background2;
+    JLabel background3;
+    JLabel background4;
     
     
     public ZonaJuego() {
@@ -87,43 +92,62 @@ public class ZonaJuego extends javax.swing.JFrame {
        
        //tubo superior
        tubo1.setBounds(550, 0, obsta.getWith(), obsta.getHeight());
-       tubo1.setBackground(obsta.getColor());
        Fondo.add(tubo1);
+       tubo1.setOpaque(false);
        tubo1.setVisible(true);
        
        //tubo inferior
        tubo2 = new JPanel();
-       
+       tubo2.setOpaque(false);
        tubo2.setBounds(550, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
-       tubo2.setBackground(obsta.getColor());
        Fondo.add(tubo2);
        tubo2.setVisible(true);
        
        Tubo obsta2 = new Tubo(); 
        tubo3 = new JPanel();
-       
+       tubo3.setOpaque(false);
        //tubo superior
        tubo3.setBounds(550, 0, obsta2.getWith(), obsta2.getHeight());
-       tubo3.setBackground(obsta2.getColor());
        Fondo.add(tubo3);
        
        
        //tubo inferior
        tubo4 = new JPanel();
-       
+       tubo4.setOpaque(false);
        tubo4.setBounds(550, 600-(500-tubo3.getHeight()), obsta2.getWith(), 500-tubo3.getHeight());
-       tubo4.setBackground(obsta2.getColor());
        Fondo.add(tubo4);
        
        tubo3.setVisible(false);
        tubo4.setVisible(false);
        
        //les doy imagen
+       //tubo1
        ImageIcon img = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\Cloud_Tileset-removebg-preview.png");
-       JLabel background = new JLabel("",img,JLabel.CENTER);
+        background = new JLabel("",img,JLabel.CENTER);
        tubo1.setLayout(null);
-       background.setBounds(0,0, obsta.getWith(), obsta.getHeight());
+       background.setBounds(0,0, tubo1.getWidth(), tubo1.getHeight());
        tubo1.add(background);
+       
+       //tubo3
+       ImageIcon img3 = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\Cloud_Tileset-removebg-preview.png");
+        background3 = new JLabel("",img3,JLabel.CENTER);
+       tubo3.setLayout(null);
+       background3.setBounds(0,0, tubo3.getWidth(), tubo3.getHeight());
+       tubo3.add(background3);
+       
+       //tubo 2 y 4
+       ImageIcon img2 = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\trees-removebg-preview.png");
+        background2 = new JLabel("",img2,JLabel.CENTER);
+       tubo2.setLayout(null);
+       background2.setBounds(0,0, tubo2.getWidth(), tubo2.getHeight());
+       tubo2.add(background2);
+       
+       //4 
+       ImageIcon img4 = new ImageIcon("C:\\Users\\Admin\\Desktop\\Flappy\\FlappyBird\\src\\Img\\trees-removebg-preview.png");
+        background4 = new JLabel("",img4,JLabel.CENTER);
+       tubo4.setLayout(null);
+       background4.setBounds(0,0, tubo4.getWidth(), tubo4.getHeight());
+       tubo4.add(background4);
     }
         
     private void sifObst(){
@@ -134,6 +158,10 @@ public class ZonaJuego extends javax.swing.JFrame {
                     tubo2.setBounds(600, 600-(500-tubo1.getHeight()), obsta.getWith(), 500-tubo1.getHeight());
                     tubo1.setLocation(600, tubo1.getLocation().y);
                     tubo2.setLocation(600, tubo2.getLocation().y);
+                    //sus imagenes tambien
+                    background.setBounds(0,0, tubo1.getWidth(), tubo1.getHeight());
+                    background2.setBounds(0,0, tubo2.getWidth(), tubo2.getHeight());
+                    
 
                 } 
                 //se crean otros obtaculos en medio juego
@@ -148,6 +176,9 @@ public class ZonaJuego extends javax.swing.JFrame {
                     tubo4.setBounds(600, 600-(500-tubo3.getHeight()), obsta.getWith(), 500-tubo3.getHeight());
                     tubo3.setLocation(600, tubo3.getLocation().y);
                     tubo4.setLocation(600, tubo4.getLocation().y);
+                    //imagenes
+                    background3.setBounds(0,0, tubo3.getWidth(), tubo3.getHeight());
+                    background4.setBounds(0,0, tubo4.getWidth(), tubo4.getHeight());
                 }     
     }
     private void pajaro(){

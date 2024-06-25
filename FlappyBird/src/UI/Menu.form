@@ -62,10 +62,8 @@
                   <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel1" pref="200" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton1" pref="200" max="32767" attributes="0"/>
-                          <Component id="lugarNom" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jButton1" pref="200" max="32767" attributes="0"/>
+                      <Component id="lugarNom" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
